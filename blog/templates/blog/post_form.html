@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- BOOTSTRAP FORM -->
+
+<div class="container d-flex justify-content-center mt-5" style="width: 25%;">
+    <div class="col mt-5">
+        <form action="" method="post">
+            {% csrf_token %}
+            <table class="table">
+                {{form.as_table}}
+                <thead>
+                    <tr>
+                        {% comment %} <th>#</th> {% endcomment %}
+                        <th class="text-center" scope="col">Title</th>
+                        <th class="text-center" scope="col">Author</th>
+                        <th class="text-center" scope="col">Summary</th>
+                        <th class="text-center" scope="col">Status</th>
+                        <th class="text-center" scope="col">Date Published</th>
+                        <th class="text-center" scope="col">Date Created</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                    {% for post in post_list %}
+                    <tr>
+                        {% comment %} <th scope="row">{{forloop.counter}}</th> {% endcomment %}
+                        <td class="ml-5"><a href="{{post.get_absolute_url}}">{{post.title}}</a></td>
+                        <td class="text-center">{{post.author}}</td>
+                        <td class="text-center">{{post.body|truncatewords:30|linebreaks}}</td>
+                        <td class="text-center">{{post.status}}</td>
+                        <td class="text-center">{{post.published_at|date:"D, d M, y"}}</td>
+                        <td><a class="nav-link active" href="/templates/blog/post_form.html">Update</a></td>
+                        <td><a class="nav-link" href="/templates/blog/post_confirm_delete.html">Delete</a></td>
+                        <td><a class="nav-link" href="/templates/base.html">Posts</a></td>
+                        <td><a class="nav-link" href="/templates/blog/post_detail.html"></a></td>
+                        <td><a class="nav-link" href="/templates/blog/post_list.html"></a></td>       
+                    </tr>
+                {% endfor %}
+            
+                </tbody>
+            </table>
+            <div class="container d-flex justify-content-center" style="width: 10%;">
+                <input type="submit" class="btn btn-primary btn-lg" value="Submit" style="margin-right: 30px; margin-top: 30px;">
+                <input type="submit" class="btn btn-danger btn-lg" style="margin-top: 30px;" onclick="window.location='{% url 'blog:all' %}'; return false;" value="Cancel">
+            </div>    
+        </form> 
+
+    </div>
+</div>
+
+<!-- END BOOTSTRAP FORM -->
+
+{% endblock %}
